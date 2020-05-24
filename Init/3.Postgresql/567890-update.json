@@ -1,0 +1,12 @@
+{
+    "id": 567890,
+    "email": "jordy@ex-slipknot.com",
+    "firstName": "Jordy",
+    "lastName": "Jordison",
+    "skills": [
+        {
+            "detail": "Junior React Developer",
+            "skill": "react-js"
+        }
+    ]
+}

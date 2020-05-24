@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: app-monitor
+  labels:
+    k8s-app: app-monitor
+  namespace: app-monitor
+spec:
+  namespaceSelector:
+    matchNames:
+      - demo-s2i
+  selector:
+    matchLabels:
+      app: freelancer-s2i
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port:  8080-tcp
