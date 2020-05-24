@@ -15,7 +15,31 @@
   - Click on "OpenShift Serverless Operator"
   - click "Create Knative Serving" -> "Create"
   - Goto "Workload" -> "Pods" wait until 9 Pods are running
-   
+  
+## Install Prometheus and Grafana
+  - Login OpenShift Web Console by admin account (opentlc-mgr)
+  - Create new project "app-monitor"
+  - Operators -> OperatorHub -> install 
+    - Prometheus Operator
+    - Grafana Operator
+  - waiting until both operator pods are running
+  ```
+  cd ./Init/2.Grafana
+  ./1.setupPrometheus.sh
+  ``` 
+  - wait until prometheus pods are running
+  ```
+  oc create route edge prometheus --service=prometheus --port=9090 -n app-monitor
+  echo "https://$(oc get route prometheus -n app-monitor -o jsonpath='{.spec.host}')"
+  ```
+  - Check Prometheus dashboard
+  ```
+  ./2.setupGrafana.sh
+  ```
+  - Login Grafana dashboard with user: root, pwd: secret
+  - Import Init/2.Grafana/freelancer-s2i-grafana.json dashboard
+  
+  
 ## Deploy Nexus
 
     oc login -u user1 https://api.cluster-bkk-8034.bkk-8034.example.opentlc.com:6443
@@ -97,3 +121,10 @@ check deployment progress and Nexus (maven-all-public)
   - http://<url>/freelancers/1234567
   - http://<url>/freelancers/234567
 
+# Test demo Prometheus and Grafana
+  - Go to Prometheus 
+  - Execute "...count...findAll"
+  - http://<url>/freelancers/
+  - wait and execute again
+  - Go to Grafana dashboard
+  - review result
